@@ -3,7 +3,7 @@ package uni.sgia.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uni.sgia.model.Inmueble;
-import uni.sgia.respository.InmuebleRepository;
+import uni.sgia.repository.InmuebleRepository;
 
 import java.util.List;
 import java.util.Optional;
