@@ -13,7 +13,7 @@ public class InmuebleService{
     @Autowired
     InmuebleRepository inmuebleRepository;
 
-    public List<Inmueble> getInmueble(){
+    public List<Inmueble> getInmuebles(){
         return inmuebleRepository.findAll();
     }
 
