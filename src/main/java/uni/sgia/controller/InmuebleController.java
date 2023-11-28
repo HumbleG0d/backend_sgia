@@ -1,2 +1,11 @@
-package uni.sgia.controller;public class InmuebleController {
+package uni.sgia.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(path = "api/sgia/inmuebles")
+public class InmuebleController {
+
 }
