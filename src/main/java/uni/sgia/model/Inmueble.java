@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "inmueble")
 public class Inmueble {
-    private TiposInmuebles inmuebles;
+    private String inmuebles;
     private String direccion;
     private int numero_inmueble; //Cantidad de inmuebles;
     private Date fecha_registro;
