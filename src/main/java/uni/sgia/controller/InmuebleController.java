@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +47,7 @@ public class InmuebleController {
 
     @RequestMapping(value = "/add" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Inmueble> add(@RequestBody Inmueble inmueble){
+    public ResponseEntity<Inmueble> addInmueble(@RequestBody Inmueble inmueble){
         logger.info(" >agregar: " + inmueble.toString());
 
         try{
@@ -61,7 +62,7 @@ public class InmuebleController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     
-    public ResponseEntity<Inmueble> getInmueble(@RequestParam(name = "id_inmueble") String idInmueble) {
+    public ResponseEntity<Inmueble> searchInmueble(@RequestParam(name = "id_inmueble") String idInmueble) {
     logger.info(">getInmueble id_inmueble: " + idInmueble);
 
         try {
@@ -76,5 +77,20 @@ public class InmuebleController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @RequestMapping(value = "/delete/{idInmueble}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    
+    public ResponseEntity<String> deleteInmueble(@PathVariable String idInmueble) {
+    logger.info(">getInmueble id_inmueble: " + idInmueble);
+
+        try {
+            inmuebleService.delete(idInmueble);
+        } catch (Exception e) {
+            logger.error("Excepcion inesperada al obtener un inmueble", e);
+            return new ResponseEntity<>("Error al eliminar el inmueble", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    
+        return new ResponseEntity<>("Inmuble eliminado exitosamente" , HttpStatus.OK);
     }
 }
