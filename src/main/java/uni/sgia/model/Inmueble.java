@@ -16,12 +16,11 @@ import java.util.Date;
 public class Inmueble {
     private String inmuebles;
     private String direccion;
-    
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int numero_inmueble; //Cantidad de inmuebles;
-    private Date fecha_registro;
-    
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int numero_inmueble; //Cantidad de inmuebles;
+    private Date fecha_registro = new Date();
+    
     private String id_inmueble; //Codigo del inmueble
 
 
