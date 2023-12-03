@@ -64,11 +64,11 @@ public class InmuebleController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     
-    public ResponseEntity<Inmueble> searchInmueble(@RequestParam(name = "id_inmueble") String idInmueble) {
-    logger.info(">getInmueble id_inmueble: " + idInmueble);
+    public ResponseEntity<Inmueble> searchInmueble(@RequestParam(name = "id") Long id) {
+    logger.info(">getInmueble id_inmueble: " + id);
 
         try {
-            Optional<Inmueble> inmueble = inmuebleService.getInmueble(idInmueble);
+            Optional<Inmueble> inmueble = inmuebleService.getInmueble(id);
             if (inmueble.isPresent()) {
                 return new ResponseEntity<>(inmueble.get(), HttpStatus.OK);
             } else {
@@ -81,13 +81,13 @@ public class InmuebleController {
 
     }
 
-    @RequestMapping(value = "/delete/{idInmueble}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     
-    public ResponseEntity<String> deleteInmueble(@PathVariable String idInmueble) {
-    logger.info(">getInmueble id_inmueble: " + idInmueble);
+    public ResponseEntity<String> deleteInmueble(@PathVariable Long id) {
+    logger.info(">getInmueble id_inmueble: " + id);
 
         try {
-            inmuebleService.delete(idInmueble);
+            inmuebleService.delete(id);
         } catch (Exception e) {
             logger.error("Excepcion inesperada al obtener un inmueble", e);
             return new ResponseEntity<>("Error al eliminar el inmueble", HttpStatus.INTERNAL_SERVER_ERROR);
