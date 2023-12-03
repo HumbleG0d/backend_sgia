@@ -14,19 +14,20 @@ import java.util.Date;
 @Entity
 @Table(name = "inmueble")
 public class Inmueble {
-    private String inmuebles;
-    private String direccion;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int numero_inmueble; //Cantidad de inmuebles;
-    private Date fecha_registro = new Date();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; //Cantidad de inmuebles;
     
     private String id_inmueble; //Codigo del inmueble
+    private String inmuebles;
+    private String direccion;
+    private Date fecha_registro = new Date();
+    
 
 
     @Override
     public String toString(){
-        return "Inmuebele{"  + inmuebles + ", "  + direccion + " , " + fecha_registro + " ," + numero_inmueble + " }" ;
+        return "Inmuebele{"  + inmuebles + ", "  + direccion + " , " + fecha_registro + " ," + id + " }" ;
     }
 
 }
