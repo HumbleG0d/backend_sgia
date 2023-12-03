@@ -29,43 +29,42 @@ public class InmuebleController {
     @Autowired
     InmuebleService inmuebleService;
 
-    @RequestMapping(value= "/list" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<List<Inmueble>> getInmuebles(){
+    public ResponseEntity<List<Inmueble>> getInmuebles() {
         logger.info("> getInmuebles[Inmueble]");
         List<Inmueble> list = null;
 
-        try{
+        try {
             list = inmuebleService.getInmuebles();
-            if(list == null) list = new ArrayList<>();
-        }
-        catch(Exception e){
-            logger.error("Excepcion inesperada al obtener la lista de personas",e);
+            if (list == null)
+                list = new ArrayList<>();
+        } catch (Exception e) {
+            logger.error("Excepcion inesperada al obtener la lista de personas", e);
             return new ResponseEntity<>(list, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        logger.info("> getPersonas[Persona]");        
+        logger.info("> getPersonas[Persona]");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Inmueble> addInmueble(@RequestBody Inmueble inmueble){
+    public ResponseEntity<Inmueble> addInmueble(@RequestBody Inmueble inmueble) {
         logger.info(" >agregar: " + inmueble.toString());
 
-        try{
+        try {
             inmuebleService.saveOrUpdate(inmueble);
-        }
-        catch(Exception e){
-            logger.error("Excepcion inesperada al agregar inmuble",e);
+        } catch (Exception e) {
+            logger.error("Excepcion inesperada al agregar inmuble", e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(inmueble , HttpStatus.OK);
+        return new ResponseEntity<>(inmueble, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    
+
     public ResponseEntity<Inmueble> searchInmueble(@RequestParam(name = "id") Long id) {
-    logger.info(">getInmueble id_inmueble: " + id);
+        logger.info(">getInmueble id_inmueble: " + id);
 
         try {
             Optional<Inmueble> inmueble = inmuebleService.getInmueble(id);
@@ -82,9 +81,9 @@ public class InmuebleController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    
+
     public ResponseEntity<String> deleteInmueble(@PathVariable Long id) {
-    logger.info(">getInmueble id_inmueble: " + id);
+        logger.info(">getInmueble id_inmueble: " + id);
 
         try {
             inmuebleService.delete(id);
@@ -92,7 +91,32 @@ public class InmuebleController {
             logger.error("Excepcion inesperada al obtener un inmueble", e);
             return new ResponseEntity<>("Error al eliminar el inmueble", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    
-        return new ResponseEntity<>("Inmuble eliminado exitosamente" , HttpStatus.OK);
+
+        return new ResponseEntity<>("Inmuble eliminado exitosamente", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Inmueble> updateInmueble(@PathVariable Long id, @RequestBody Inmueble inmueble) {
+        logger.info(">updateInmueble id_inmueble: " + id);
+
+        try {
+            Optional<Inmueble> existingInmueble = inmuebleService.getInmueble(id);
+            if (existingInmueble.isPresent()) {
+                Inmueble updatedInmueble = existingInmueble.get();
+                updatedInmueble.setInmuebles(inmueble.getInmuebles());
+                updatedInmueble.setDireccion(inmueble.getDireccion());
+                // Actualiza otros campos según sea necesario
+
+                inmuebleService.saveOrUpdate(updatedInmueble);
+
+                return new ResponseEntity<>(updatedInmueble, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            logger.error("Excepcion inesperada al actualizar un inmueble", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
