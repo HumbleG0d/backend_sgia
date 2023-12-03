@@ -17,13 +17,13 @@ public class InmuebleService{
         return inmuebleRepository.findAll();
     }
 
-    public Optional<Inmueble> getInmueble(String id){
+    public Optional<Inmueble> getInmueble(Long id){
         return inmuebleRepository.findById(id);
     }
     public void saveOrUpdate(Inmueble imb){
         inmuebleRepository.save(imb);
     }
-    public void delete(String id){
+    public void delete(Long id){
         inmuebleRepository.deleteById(id);
     }
 }
